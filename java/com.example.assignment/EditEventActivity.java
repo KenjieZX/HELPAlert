@@ -33,21 +33,24 @@ public class EditEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_event);
 
+        // Get subjectId and eventId from Intent
+        subjectId = getIntent().getStringExtra("subjectId");
+        eventId = getIntent().getStringExtra("eventId");
+
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent reg = new Intent(getApplicationContext(), MainPage.class);
-                startActivity(reg);
+                Intent intent = new Intent(getApplicationContext(), EventListActivity.class);
+                intent.putExtra("subjectId", subjectId);
+                intent.putExtra("eventId", eventId);
+                startActivity(intent);
                 finish();
             }
         });
 
         db = FirebaseFirestore.getInstance();
 
-        // Get subjectId and eventId from Intent
-        subjectId = getIntent().getStringExtra("subjectId");
-        eventId = getIntent().getStringExtra("eventId");
 
         if (subjectId == null || eventId == null) {
             Log.e("EditEventActivity", "Subject ID or Event ID is null");
