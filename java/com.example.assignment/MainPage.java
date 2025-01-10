@@ -26,6 +26,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MainPage extends AppCompatActivity {
 
@@ -75,9 +76,9 @@ public class MainPage extends AppCompatActivity {
         addSubjectButton.setOnClickListener(view -> addSubject());
 
 //         WITH IMAGES
-        Button selectImageButton = findViewById(R.id.selectImage);
-        selectedImageView = findViewById(R.id.selectedImage);
-        selectImageButton.setOnClickListener(view -> selectImage());
+//        Button selectImageButton = findViewById(R.id.selectImage);
+//        selectedImageView = findViewById(R.id.selectedImage);
+//        selectImageButton.setOnClickListener(view -> selectImage());
 
         loadSubjects();
         } else if (role.equals("user")) {
@@ -106,70 +107,35 @@ public class MainPage extends AppCompatActivity {
         });
     }
 
-    // ADD SUBJECT WITH IMAGES
-//    private void addSubject() {
-//        EditText subjectNameEditText = findViewById(R.id.subjectName);
-//        EditText subjectCodeEditText = findViewById(R.id.subjectCode);
-//
-//        String subjectName = subjectNameEditText.getText().toString().trim();
-//        String subjectCode = subjectCodeEditText.getText().toString().trim();
-//
-//        if (subjectName.isEmpty() || subjectCode.isEmpty() || selectedImageUri == null) {
-//            Toast.makeText(this, "Please fill in all fields and select an image", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        String imageName = "images/" + System.currentTimeMillis() + ".jpg";
-//        StorageReference imageRef = storageRef.child(imageName);
-//        imageRef.putFile(selectedImageUri).addOnSuccessListener(taskSnapshot -> {
-//            imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-//                String imageUrl = uri.toString();
-//
-//                Subject newSubject = new Subject();
-//                newSubject.setName(subjectName);
-//                newSubject.setCode(subjectCode);
-//                newSubject.setImageUrl(imageUrl);
-//
-//                db.collection("subjects")
-//                        .add(newSubject)
-//                        .addOnSuccessListener(documentReference -> {
-//                            Toast.makeText(MainPage.this, "Subject added successfully", Toast.LENGTH_SHORT).show();
-//                            subjectNameEditText.setText("");
-//                            subjectCodeEditText.setText("");
-//                            selectedImageView.setImageURI(null);
-//                            selectedImageUri = null;
-//                            loadSubjects();
-//                        })
-//                        .addOnFailureListener(e -> Toast.makeText(MainPage.this, "Failed to add subject", Toast.LENGTH_SHORT).show());
-//            });
-//        });
-//    }
-
-
     // ADD SUBJECT WITH NO IMAGES
     private void addSubject() {
         EditText subjectNameEditText = findViewById(R.id.subjectName);
         EditText subjectCodeEditText = findViewById(R.id.subjectCode);
+        int[] subjectImages = {
+                R.drawable.subject1,
+                R.drawable.subject2,
+                R.drawable.subject3,
+                R.drawable.subject4,
+                R.drawable.subject5
+        };
 
         String subjectName = subjectNameEditText.getText().toString().trim();
         String subjectCode = subjectCodeEditText.getText().toString().trim();
 
-//        if (subjectName.isEmpty() || subjectCode.isEmpty() || selectedImageUri == null) {
         if (subjectName.isEmpty() || subjectCode.isEmpty()) {
-            Toast.makeText(this, "Please fill in all fields and select an image", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String imageName = "images/" + System.currentTimeMillis() + ".jpg";
-        StorageReference imageRef = storageRef.child(imageName);
-//        imageRef.putFile(selectedImageUri).addOnSuccessListener(taskSnapshot -> {
-//            imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-//                String imageUrl = uri.toString();
+
+        // Randomly select an image
+        int randomImageIndex = new Random().nextInt(subjectImages.length);
+        int selectedImage = subjectImages[randomImageIndex];
 
         Subject newSubject = new Subject();
         newSubject.setName(subjectName);
         newSubject.setCode(subjectCode);
-//                newSubject.setImageUrl(imageUrl);
+        newSubject.setImageResource(selectedImage);
 
         db.collection("subjects")
                 .add(newSubject)
@@ -177,19 +143,10 @@ public class MainPage extends AppCompatActivity {
                     Toast.makeText(MainPage.this, "Subject added successfully", Toast.LENGTH_SHORT).show();
                     subjectNameEditText.setText("");
                     subjectCodeEditText.setText("");
-//                            selectedImageView.setImageURI(null);
-//                            selectedImageUri = null;
                     loadSubjects();
                 })
                 .addOnFailureListener(e -> Toast.makeText(MainPage.this, "Failed to add subject", Toast.LENGTH_SHORT).show());
-//            });
-//        });
-    }
 
-    private void selectImage() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        startActivityForResult(intent, 1000);
     }
 
     @Override
@@ -251,22 +208,4 @@ public class MainPage extends AppCompatActivity {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
