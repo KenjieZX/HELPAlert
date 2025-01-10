@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "342839757454",
+    "project_id": "helpalert-f3770",
+    "storage_bucket": "helpalert-f3770.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342839757454:android:dbea54c57ddf5e784997df",
+        "android_client_info": {
+          "package_name": "com.example.assignment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5HJkAMAIvQyXvxSQVSVuLOXSH7i4vpqo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
